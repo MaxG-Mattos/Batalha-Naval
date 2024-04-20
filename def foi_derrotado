@@ -1,0 +1,6 @@
+def foi_derrotado(matriz):
+    for linha in matriz:
+        for coodenada in linha:
+            if coodenada == 'N':
+                return False
+    return True
