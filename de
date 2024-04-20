@@ -1,0 +1,7 @@
+def cria_mapa(N):
+    Linha = ['']*N
+    final = []
+    for _ in range(N):
+        final.append(Linha)
+    return final
+print(cria_mapa(3))
