@@ -1,4 +1,10 @@
 import random
+def OrdemPosicionamento(pais):
+    Ordem = []
+    for navio, quantidade in paises[pais].items():
+        for i in range (quantidade):
+            Ordem.append(navio)
+    return Ordem
 bloco_por_navio = {
     'destroyer': 3,
     'porta-avioes': 5,
