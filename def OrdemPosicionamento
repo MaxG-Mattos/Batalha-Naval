@@ -1,0 +1,6 @@
+def OrdemPosicionamento(pais):
+    Ordem = []
+    for navio, quantidade in paises[pais].items():
+        for i in range (quantidade):
+            Ordem.append(navio)
+    return Ordem
