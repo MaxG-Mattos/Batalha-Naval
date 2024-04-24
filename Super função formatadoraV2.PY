@@ -1,4 +1,5 @@
 import random
+import random
 def OrdemPosicionamento(pais):
     Ordem = []
     for navio, quantidade in paises[pais].items():
@@ -85,67 +86,58 @@ def cria_mapa2(N):
 # selecionando tamanho do mapa
 tamanho_mapa_aleatorio = False
 size = None
-escolha_de_dimensao = input('Você quer escolher ou sortear a dimensão do seu mapa?\nO mapa é quadrado, portanto o tamanho de linhas é igual ao de colunas ')
+escolha_de_dimensao = input('Você quer escolher a dimensão do seu mapa?  S/N ')
 escolha_de_dimensao = escolha_de_dimensao.upper()
 if escolha_de_dimensao == 'N':
     tamanho_mapa_aleatorio = True
 if tamanho_mapa_aleatorio:
-    size = random.randrange(12, 27)
+    size = random.randrange(12, 26)
 else:
-    size = int(input('escolha um número entre 12 e 27: '))
+    size = int(input('\nO mapa é quadrado, portanto o tamanho de linhas é igual ao de colunas\nescolha um número entre 12 e 26: '))
     if size > 27 or size < 12:
-        while size > 27 or size < 12:
+        while size > 26 or size < 12:
             size = int(input('por favor escolha outra dimensão: '))
 
 robo = cria_mapa(size)
 humano = cria_mapa2(size)
-# agora que a gente tem nossas matrizes, estaq na hora de rodar o nossa SUPPPPPPERR função formatadora.
-#IMPORtANTE: Esse negocio só funciona se o tabuleiro for 10x10. Não achei em nenhum lugar falando que o tabuleiro podia ter outras dimenções. Então fiz só para 10x10 mesmo.
 
+
+alfabeto = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 def formatador(robo, humano):
-    #primeiro, A SUPPPPERRRR função imprime qual lado é o computador e qual é o Humano. 
-    #Depois Ela imprime o ABCDEFGHIJ.
-    #importante: Cada quadradinho na função é 3x1. Ou seja, um espaço vazio são 3 espaços, e um lugar cheio são 3 █
 
-    print('                 COMPUUTADOR                                                           JOGADOR')
-    print('    A   B   C   D   E   F   G   H   I   J','                         ','    A   B   C   D   E   F   G   H   I   J')
-    #Agora vem a parte dificl. Não da para imprimir direro porque ficqa tudo cagado. tem que fazer linha a linha.  
-
-    #menti, a parte dificil não é agora. 
-
-    #O codigo Abaixo só serve para alinhar as coisas. Aparentemente o numero 10 é mais largo que os outros. Então precisa colocar uns espaços aleatorios para fazer os outros numeros ficarem com a mesma largura que o 10.
+    espaconum = 0
+    espaco =''
+    AbcCalculo = alfabeto[:size]
+    AbcPrint = '    '
+    for i in AbcCalculo:
+        AbcPrint += i + '  '
+        espaconum += 3
+    espaconum -= 12
+    espaconum = espaconum//2
+    for i in range(espaconum):
+        espaco += ' '
+    print('  ',espaco,'COMPUTADOR  ',espaco,'                           ',espaco,'JOGADOR')
+    print(AbcPrint,'                       ',AbcPrint)
+ 
     for i in range(len(robo)):
         pos_reverso = i +1
         pos = i + 1
         pos = str(pos)
-        if pos != '10':
+        if int(pos) < 10:
             pos_reverso =  pos + ' '
             pos = ' ' + pos
 
-        #agora sim é a parte dificil
-        #Como eu ja disse, tem que fazer as coisas linha a linha, A primeira vista, seria só fazer print( numero linha[i], numero, espaço, numero linha[i], numero ). só que isso da errado, o negocio imprime tudo cagado tipo 
-        #[' A ', ' A ', ' A ', ' A ', ' A ', ' A ', ' A ', ' A ', ' A ', ' A '], sendo que a gente quer
-        #A   A   A   A   A   A   A   A   A   A
-        #Para corrigir, por sorte pra caramba, eu descobri como acessar um valor de uma matriz em uma linha
-        #nos exercicios de matriz , eu tentei fazer isso de todas as formas e falhei, só que agora por sorte eu consegui.
-        #é só fazer assim: Matriz[linha][coluna]
-        #é tao facil que me deixa com raiva. como que eu nao descobri isso antes??
-        #acho que voce ja entendeu como que a proxima linha de codigo vai ser né? 
-        #se voce nao entendeu, vou te explicar. Ela imprime o numero da coluna, e ai imprime 10 vezes o valor da coluna em uma linha. 
-        
 
+        RoboPrint = ''
+        HumanoPrint = ''
+        for ponto in range(size):
+            RoboPrint += robo[i][ponto]
+            HumanoPrint += humano[i][ponto]
 
         #print(robo[i])
-        print(pos,robo[i][0],robo[i][1],robo[i][2],robo[i][3],robo[i][4],robo[i][5],robo[i][6],robo[i][7],robo[i][8],robo[i][9],pos_reverso,'                     ',pos,humano[i][0],humano[i][1],humano[i][2],humano[i][3],humano[i][4],humano[i][5],humano[i][6],humano[i][7],humano[i][8],humano[i][9],i+1)
-    #agora olha só que legal, é o alfabeto denovo.
-    print('    A   B   C   D   E   F   G   H   I   J','                         ','    A   B   C   D   E   F   G   H   I   J')
+        print(pos,RoboPrint,pos_reverso,'                     ',pos,HumanoPrint,i+1)
 
-#Eu não sabia que sava para usar função sem return até hoje. Que util. 
+    print(AbcPrint,'                       ',AbcPrint)
+
 formatador(robo, humano)
-
-#Como usar essa função? 
-#depois de que todos os cauculos forem feitos, é só colocar a matriz atual do robo e do humano na função e ela vai imprimir direitinho.
-
-
-
