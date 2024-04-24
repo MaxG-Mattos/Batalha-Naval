@@ -1,4 +1,5 @@
 import numpy as np
+import random
 alfabeto = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 def foi_derrotado(matriz):
     for p in matriz:
@@ -42,10 +43,52 @@ def posicao_suporta(mapa, numero_de_blocos, linha, coluna, orientacao):
         else:
             return 'Direção inválida'
     return True
-# print(posicao_suporta([
-#     [' ', ' ', ' ', 'N', ' '],
-#     [' ', ' ', ' ', 'N', ' '],
-#     ['N', 'N', ' ', 'N', ' '],
-#     [' ', ' ', ' ', ' ', ' '],
-#     ['N', 'N', 'N', ' ', ' ']
-# ], 2, 3, 4, 'h'))
+def aloca_navios (mapa, lista_numero_de_blocos):
+    linhas_possiveis = list(range(0, len(mapa)))
+    colunas_possiveis = list(range(0, len(mapa)))
+    ocupados = []
+    for line in mapa:
+        cod = []
+        c = 0
+        for place in line:
+            if place == 'N':
+                cod.append(mapa.index(line))
+                cod.append(c)
+                ocupados.append(cod)
+                cod = []
+            c+=1
+            if c >= len(line):
+                c = 0
+    for b in lista_numero_de_blocos:
+        linha = random.choice(linhas_possiveis); coluna = random.choice(colunas_possiveis); orientacao = random.choice(['v','h'])
+        continua = posicao_suporta(mapa, b, linha, coluna, orientacao)
+        pos_igual = [linha, coluna] in ocupados
+        if continua == False or pos_igual == True:
+            while continua == False or pos_igual == True:
+                linha = random.choice(linhas_possiveis); coluna = random.choice(colunas_possiveis); orientacao = random.choice(['v','h'])
+                continua = posicao_suporta(mapa, b, linha, coluna, orientacao)
+                pos_igual = [linha,coluna] in ocupados
+            if orientacao == 'v':
+                for i in range(0, b):
+                    mapa[linha+i][coluna] = 'N'
+                # return mapa
+            if orientacao == 'h':
+                for i in range(0, b):
+                    mapa[linha][coluna+i] = 'N'
+                # return mapa
+        elif orientacao == 'v':
+            for i in range(0, b):
+                mapa[linha+i][coluna] = 'N'
+            # return mapa
+        elif orientacao == 'h':
+            for i in range(0, b):
+                mapa[linha][coluna+i] = 'N'
+    return mapa  
+print(aloca_navios([
+    [' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ']
+], [3, 2]))
+            
+
