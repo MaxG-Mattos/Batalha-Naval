@@ -1,3 +1,3 @@
 # Batalha-Naval
 o ep2 de desoft
-concordo
+Grupo: Max Mattos, Gustavo Forbes
