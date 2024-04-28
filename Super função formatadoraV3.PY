@@ -1,5 +1,10 @@
 import random
 alfabeto = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+# def posicao(string):
+#     maiusculo = string.upper()
+#     coluna = alfabeto.index(maiusculo[0])
+#     linha = int(maiusculo[1:])-1 #já que começa no 0
+#     return coluna, linha
 def frotas(pais_j, pais_c):
     pais_jogador = []
     for n,q in paises[pais_j].items():
@@ -126,6 +131,33 @@ def formatador(robo, humano):
         print(pos,RoboPrint,'\u001b[0m',pos_reverso,'                     ',pos,HumanoPrint,'\u001b[0m',i+1)
 
     print(AbcPrint,'                       ',AbcPrint)
+
+def aloca_navios_jogador (mapa, numero_de_blocos, linha, coluna, orientacao):
+    # numero_de_blocos = [numero_de_blocos]
+    ocupados = []
+    for line in mapa:
+        cod = []
+        c = 0
+        for place in line:
+            if place == ' N ':
+                cod.append(mapa.index(line))
+                cod.append(c)
+                ocupados.append(cod)
+                cod = []
+            c+=1
+            if c >= len(line):
+                c = 0
+    linha = linha; coluna = coluna; orientacao = orientacao
+    pos_igual = [linha, coluna] in ocupados
+    if pos_igual == True or posicao_suporta(mapa, numero_de_blocos, linha, coluna, orientacao) == False:
+        return False
+    elif orientacao == 'v':
+        for i in range(0, numero_de_blocos):
+            mapa[linha+i][coluna] = ' N '
+    elif orientacao == 'h':
+        for i in range(0, numero_de_blocos):
+            mapa[linha][coluna+i] = ' N '
+    return mapa  
 cores = {'reset': '\u001b[0m',
     'red': '\u001b[31m',
     'black': '\u001b[30m',
@@ -210,7 +242,7 @@ tamanho_mapa_aleatorio = False
 size = None
 escolha_de_dimensao = input('Você quer escolher a dimensão do seu mapa?  S/N ')
 escolha_de_dimensao = escolha_de_dimensao.upper()
-if escolha_de_dimensao == 'N':
+if escolha_de_dimensao == 'N' or escolha_de_dimensao == 'n':
     tamanho_mapa_aleatorio = True
 if tamanho_mapa_aleatorio:
     size = random.randrange(5, 13) #dps do 13 não tem mais como deixar o gráfico formatado, ele não cabe no terminal
@@ -232,3 +264,33 @@ for n in navios_computador:
     bloco_navio_pc.append(bloco_por_navio[n])
 robo = aloca_navios(robo, bloco_navio_pc)
 formatador(robo, humano)
+
+print('Hora de alocar suas tropas!\n')
+while len(navios_jogador) > 0:
+    print(f'Seus navios disponiveis são: {navios_jogador}')
+    print(f'Você agora está alocando {navios_jogador[0]}\nEle possui {bloco_por_navio[navios_jogador[0]]} blocos')
+    linha = int(input('Em que linha você quer posicionar?')); linha = linha -1
+    coluna = input('Em que coluna queres posicionar? ')
+    coluna = coluna.upper(); coluna = alfabeto.index(coluna)
+    orientacao = input('Horizontal ou Vertical? | v/h |')
+    orientacao = orientacao.lower()
+    pode_colocar = posicao_suporta(humano, bloco_por_navio[navios_jogador[0]], linha, coluna, orientacao)
+    mapa = aloca_navios_jogador(humano, bloco_por_navio[navios_jogador[0]], linha, coluna, orientacao)
+    if pode_colocar == False or mapa == False:
+        while pode_colocar == False and mapa == False:
+            print('Posição inválida, tente outra: ')
+            linha = int(input('Em que linha você quer posicionar?')); linha = linha -1
+            coluna = input('Em que coluna queres posicionar? ')
+            coluna = coluna.upper(); coluna = alfabeto.index(coluna)
+            orientacao = input('Horizontal ou Vertical? | v/h |')
+            print(print(f'Seu návio atual possui {bloco_por_navio[navios_jogador[0]]} blocos'))
+            orientacao = orientacao.lower()
+            pode_colocar = posicao_suporta(humano, bloco_por_navio[navios_jogador[0]], linha, coluna, orientacao)
+            mapa = aloca_navios_jogador(humano, bloco_por_navio[navios_jogador[0]], linha, coluna, orientacao)
+        humano = mapa
+        formatador(robo, humano)
+        del navios_jogador[0]
+    else:
+        humano = mapa
+        formatador(robo, humano)
+        del navios_jogador[0]
