@@ -61,32 +61,32 @@ def aloca_navios (mapa, lista_numero_de_blocos):
                 pos_igual = [linha,coluna] in ocupados
             if orientacao == 'v':
                 for i in range(0, b):
-                    mapa[linha+i][coluna] = 'N'
+                    mapa[linha+i][coluna] = ' N '
                 # return mapa
             if orientacao == 'h':
                 for i in range(0, b):
-                    mapa[linha][coluna+i] = 'N'
+                    mapa[linha][coluna+i] = ' N '
                 # return mapa
         elif orientacao == 'v':
             for i in range(0, b):
-                mapa[linha+i][coluna] = 'N'
+                mapa[linha+i][coluna] = ' N '
             # return mapa
         elif orientacao == 'h':
             for i in range(0, b):
-                mapa[linha][coluna+i] = 'N'
+                mapa[linha][coluna+i] = ' N '
     return mapa  
 
 def cria_mapa(N):
     final = []
     for _ in range(N):
-        Linha = [W]*(N)
+        Linha = [' A ']*(N)
         final.append(Linha)
     return final
 
 def cria_mapa2(N):
     final = []
     for _ in range(N):
-        Linha = [W]*(N)
+        Linha = [' █ ']*(N)
         final.append(Linha)
     return final
 def formatador(robo, humano):
@@ -121,9 +121,19 @@ def formatador(robo, humano):
             HumanoPrint += humano[i][ponto]
 
         #print(robo[i])
-        print(pos,RoboPrint,'\u001b[0m',pos_reverso,'                     ',pos,HumanoPrint,'\u001b[0m',i+1)
+        print(pos,RoboPrint,pos_reverso,'                     ',pos,HumanoPrint,i+1)
 
     print(AbcPrint,'                       ',AbcPrint)
+cores = {'reset': '\u001b[0m',
+    'red': '\u001b[31m',
+    'black': '\u001b[30m',
+    'green': '\u001b[32m',
+    'yellow': '\u001b[33m',
+    'blue': '\u001b[34m',
+    'magenta': '\u001b[35m',
+    'cyan': '\u001b[36m',
+    'white': '\u001b[37m'}
+
 bloco_por_navio = {
     'destroyer': 3,
     'porta-avioes': 5,
@@ -165,9 +175,6 @@ paises = {'França':{
         'submarino': 1
     }}
 # esse embaixo provavelmente vai facilitar na hora de escolher os jogadores
-
-W = '\u001b[34m███'
-
 numero_pais = {0: 'Brasil',1 : 'França', 2 : 'Aústralia', 3 : 'Rússia', 4 : 'Japão' }
 print('0 = Brasil\n1 = França\n2 = Aústralia\n3 = Rússia\n4 = Japão')
 jogador_num = int(input('qual o numero do pais que tu queres jogar? ')) #o jogador diz o número do país q ele quer jogar
@@ -205,10 +212,15 @@ else:
         while size > 13 or size < 5:
             size = int(input('por favor escolha outra dimensão: '))
 
+print(f'\nVocê está jogando como {jogador}. O Computador está jogando como {computador}')
+
 robo = cria_mapa(size)
 humano = cria_mapa2(size)
 navios = frotas(jogador, computador)
 navios_computador = navios[1] 
 navios_jogador = navios[0]
-
+bloco_navio_pc = []
+for n in navios_computador:
+    bloco_navio_pc.append(bloco_por_navio[n])
+robo = aloca_navios(robo, bloco_navio_pc)
 formatador(robo, humano)
