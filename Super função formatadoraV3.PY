@@ -124,6 +124,16 @@ def formatador(robo, humano):
         print(pos,RoboPrint,pos_reverso,'                     ',pos,HumanoPrint,i+1)
 
     print(AbcPrint,'                       ',AbcPrint)
+cores = {'reset': '\u001b[0m',
+    'red': '\u001b[31m',
+    'black': '\u001b[30m',
+    'green': '\u001b[32m',
+    'yellow': '\u001b[33m',
+    'blue': '\u001b[34m',
+    'magenta': '\u001b[35m',
+    'cyan': '\u001b[36m',
+    'white': '\u001b[37m'}
+
 bloco_por_navio = {
     'destroyer': 3,
     'porta-avioes': 5,
