@@ -1,5 +1,6 @@
 import random
 alfabeto = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+numfabeto ='10112131415161718192021223242526'
 # def posicao(string):
 #     maiusculo = string.upper()
 #     coluna = alfabeto.index(maiusculo[0])
@@ -89,6 +90,8 @@ def cria_mapa(N):
 
 
 def formatador(robo, humano):
+    robo_P = robo
+    humano_P = humano
 
     espaconum = 0
     espaco =''
@@ -108,6 +111,8 @@ def formatador(robo, humano):
         for ponto in range(len(robo)):
             if robo[linha][ponto] == ' N ':
                 robo[linha][ponto] = T
+            if humano[linha][ponto] == ' N ':
+                humano[linha][ponto] = N
 
     for i in range(len(robo)):
         pos_reverso = i +1
@@ -212,7 +217,8 @@ paises = {'França':{
 W = '\u001b[34m███'
 X = '\u001b[31m███'
 N = '\u001b[32m███'
-T = '\u001b[30m███' 
+T = '\u001b[33m███' 
+C = '\u001b[36m███'
 
 # esse embaixo provavelmente vai facilitar na hora de escolher os jogadores
 numero_pais = {0: 'Brasil',1 : 'França', 2 : 'Aústralia', 3 : 'Rússia', 4 : 'Japão' }
@@ -294,3 +300,48 @@ while len(navios_jogador) > 0:
         humano = mapa
         formatador(robo, humano)
         del navios_jogador[0]
+
+
+while True:
+    #sim humberto, eu sei do isdigit(), mas nao vou usar.
+
+    linha = (input('Em que linha você quer atacar?'))
+    if linha not in numfabeto:
+        print('Isso não é uma linha valida')
+        continue
+    linha = int(linha) ; linha = linha -1
+    if linha > size:
+        print('Isso esta fora do mapa chefinho')
+        continue
+    coluna = input('Em que coluna queres atacar? ')
+    if coluna not in alfabeto and coluna not in alfabeto.lower():
+        print('Isso não é uma linha valida')
+        continue
+
+    coluna = coluna.upper()
+
+    if (alfabeto.index(coluna)) > size - 1:
+        print('Isso esta fora do mapa chefinho')
+        continue
+    coluna = alfabeto.index(coluna)
+
+    if robo[linha][coluna] == W:
+        print('ERRRRRRRROUUUUUUUUUUUUUUUUU')
+        robo[linha][coluna] = C
+    elif robo[linha][coluna] == T:
+        print('KABBBBBBBBBBBOOOOOOOOOOOOOOOOOOOMMMMMMMM!!!!!!')
+        robo[linha][coluna] = X
+    elif robo[linha][coluna] == C or robo[linha][coluna] == X:
+        resposta = input('Esse lugar ja foi atingido Chefinho, tem certeza que quer atacar ai?  [S/N]')
+        resposta = resposta.upper()
+        if resposta == 'N':
+            continue
+        else:
+            print(print('ERRRRRRRROUUUUUUUUUUUUUUUUU'))
+    
+    # vez do computador
+
+
+    
+        
+    formatador(robo, humano)
