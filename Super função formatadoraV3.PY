@@ -79,14 +79,14 @@ def aloca_navios (mapa, lista_numero_de_blocos):
 def cria_mapa(N):
     final = []
     for _ in range(N):
-        Linha = [' A ']*(N)
+        Linha = [W]*(N)
         final.append(Linha)
     return final
 
 def cria_mapa2(N):
     final = []
     for _ in range(N):
-        Linha = [' █ ']*(N)
+        Linha = [W]*(N)
         final.append(Linha)
     return final
 def formatador(robo, humano):
@@ -121,19 +121,9 @@ def formatador(robo, humano):
             HumanoPrint += humano[i][ponto]
 
         #print(robo[i])
-        print(pos,RoboPrint,pos_reverso,'                     ',pos,HumanoPrint,i+1)
+        print(pos,RoboPrint,'\u001b[0m',pos_reverso,'                     ',pos,HumanoPrint,'\u001b[0m',i+1)
 
     print(AbcPrint,'                       ',AbcPrint)
-cores = {'reset': '\u001b[0m',
-    'red': '\u001b[31m',
-    'black': '\u001b[30m',
-    'green': '\u001b[32m',
-    'yellow': '\u001b[33m',
-    'blue': '\u001b[34m',
-    'magenta': '\u001b[35m',
-    'cyan': '\u001b[36m',
-    'white': '\u001b[37m'}
-
 bloco_por_navio = {
     'destroyer': 3,
     'porta-avioes': 5,
@@ -175,6 +165,9 @@ paises = {'França':{
         'submarino': 1
     }}
 # esse embaixo provavelmente vai facilitar na hora de escolher os jogadores
+
+W = '\u001b[34m███'
+
 numero_pais = {0: 'Brasil',1 : 'França', 2 : 'Aústralia', 3 : 'Rússia', 4 : 'Japão' }
 print('0 = Brasil\n1 = França\n2 = Aústralia\n3 = Rússia\n4 = Japão')
 jogador_num = int(input('qual o numero do pais que tu queres jogar? ')) #o jogador diz o número do país q ele quer jogar
