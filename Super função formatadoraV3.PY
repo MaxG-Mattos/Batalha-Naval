@@ -1,5 +1,4 @@
 import random
-import random
 alfabeto = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 def frotas(pais_j, pais_c):
     pais_jogador = []
@@ -79,16 +78,11 @@ def aloca_navios (mapa, lista_numero_de_blocos):
 def cria_mapa(N):
     final = []
     for _ in range(N):
-        Linha = [' A ']*(N)
+        Linha = [W]*(N)
         final.append(Linha)
     return final
 
-def cria_mapa2(N):
-    final = []
-    for _ in range(N):
-        Linha = [' █ ']*(N)
-        final.append(Linha)
-    return final
+
 def formatador(robo, humano):
 
     espaconum = 0
@@ -104,7 +98,12 @@ def formatador(robo, humano):
         espaco += ' '
     print('  ',espaco,'COMPUTADOR  ',espaco,'                           ',espaco,'JOGADOR')
     print(AbcPrint,'                       ',AbcPrint)
- 
+    #A proxima linha de codigo esconde a posição dos robos
+    for linha in range(len(robo)):
+        for ponto in range(len(robo)):
+            if robo[linha][ponto] == ' N ':
+                robo[linha][ponto] = T
+
     for i in range(len(robo)):
         pos_reverso = i +1
         pos = i + 1
@@ -112,16 +111,19 @@ def formatador(robo, humano):
         if int(pos) < 10:
             pos_reverso =  pos + ' '
             pos = ' ' + pos
+        
 
 
         RoboPrint = ''
         HumanoPrint = ''
         for ponto in range(size):
+    
             RoboPrint += robo[i][ponto]
             HumanoPrint += humano[i][ponto]
+        
 
         #print(robo[i])
-        print(pos,RoboPrint,pos_reverso,'                     ',pos,HumanoPrint,i+1)
+        print(pos,RoboPrint,'\u001b[0m',pos_reverso,'                     ',pos,HumanoPrint,'\u001b[0m',i+1)
 
     print(AbcPrint,'                       ',AbcPrint)
 cores = {'reset': '\u001b[0m',
@@ -174,6 +176,12 @@ paises = {'França':{
         'couracado': 1,
         'submarino': 1
     }}
+
+W = '\u001b[34m███'
+X = '\u001b[31m███'
+N = '\u001b[32m███'
+T = '\u001b[30m███' 
+
 # esse embaixo provavelmente vai facilitar na hora de escolher os jogadores
 numero_pais = {0: 'Brasil',1 : 'França', 2 : 'Aústralia', 3 : 'Rússia', 4 : 'Japão' }
 print('0 = Brasil\n1 = França\n2 = Aústralia\n3 = Rússia\n4 = Japão')
@@ -215,7 +223,7 @@ else:
 print(f'\nVocê está jogando como {jogador}. O Computador está jogando como {computador}')
 
 robo = cria_mapa(size)
-humano = cria_mapa2(size)
+humano = cria_mapa(size)
 navios = frotas(jogador, computador)
 navios_computador = navios[1] 
 navios_jogador = navios[0]
