@@ -117,7 +117,7 @@ def formatador(robo, humano):
     espaconum = espaconum//2
     for i in range(espaconum):
         espaco += ' '
-    print('  ',espaco,'COMPUTADOR  ',espaco,'                           ',espaco,'JOGADOR')
+    print('  ',espaco,'COMPUTADOR  ',espaco,'                            ',espaco,'JOGADOR')
     print(AbcPrint,'                       ',AbcPrint)
     #A proxima linha de codigo esconde a posição dos robos
     for linha in range(len(robo)):
@@ -148,7 +148,9 @@ def formatador(robo, humano):
         #print(robo[i])
         print(pos,RoboPrint,'\u001b[0m',pos_reverso,'                     ',pos,HumanoPrint,'\u001b[0m',i+1)
 
-    print(AbcPrint,'                       ',AbcPrint)
+    print(AbcPrint,'                        ',AbcPrint)
+
+
 
 def aloca_navios_jogador (mapa, numero_de_blocos, linha, coluna, orientacao):
     # numero_de_blocos = [numero_de_blocos]
@@ -176,6 +178,24 @@ def aloca_navios_jogador (mapa, numero_de_blocos, linha, coluna, orientacao):
         for i in range(0, numero_de_blocos):
             mapa[linha][coluna+i] = ' N '
     return mapa  
+
+def letra_valida(letra):
+    if (letra not in alfabeto and letra not in alfabeto.lower()) or len(letra) > 1 or alfabeto.index(letra.upper()) >= size:
+        return False
+    return True
+
+def numero_valido(numero):
+    if numero not in numfabeto:
+        return False
+    numero = int(numero)
+    if numero > size or numero == 0:
+        return False
+    return True
+
+
+
+
+
 cores = {'reset': '\u001b[0m',
     'red': '\u001b[31m',
     'black': '\u001b[30m',
@@ -288,10 +308,24 @@ print('Hora de alocar suas tropas!\n')
 while len(navios_jogador) > 0:
     print(f'Seus navios disponiveis são: {navios_jogador}')
     print(f'Você agora está alocando {navios_jogador[0]}\nEle possui {bloco_por_navio[navios_jogador[0]]} blocos')
-    linha = int(input('Em que linha você quer posicionar?')); linha = linha -1
+    
+    linha = (input('Em que linha você quer posicionar?')); 
+    while numero_valido(linha) == False:
+        linha = input('Por favor, selecione uma linha valida')
+
+    linha = int(linha); linha = linha -1
+
+
     coluna = input('Em que coluna queres posicionar? ')
+    while letra_valida(coluna) == False:
+        coluna = input('Por favor, selecione uma coluna valida')
+
     coluna = coluna.upper(); coluna = alfabeto.index(coluna)
+
     orientacao = input('Horizontal ou Vertical? | v/h |')
+    while orientacao != 'h' and orientacao != 'v' and orientacao != 'V' and orientacao != 'H':
+        orientacao  = input('Por favor selecione uma orientação valida')
+
     orientacao = orientacao.lower()
     pode_colocar = posicao_suporta(humano, bloco_por_navio[navios_jogador[0]], linha, coluna, orientacao)
     mapa = aloca_navios_jogador(humano, bloco_por_navio[navios_jogador[0]], linha, coluna, orientacao)
@@ -301,7 +335,11 @@ while len(navios_jogador) > 0:
             linha = int(input('Em que linha você quer posicionar?')); linha = linha -1
             coluna = input('Em que coluna queres posicionar? ')
             coluna = coluna.upper(); coluna = alfabeto.index(coluna)
+            
             orientacao = input('Horizontal ou Vertical? | v/h |')
+            while orientacao != 'h' and orientacao != 'v' and orientacao != 'V' and orientacao != 'H':
+                orientacao  = input('Por favor selecione uma orientação valida')
+
             print(print(f'Seu návio atual possui {bloco_por_navio[navios_jogador[0]]} blocos'))
             orientacao = orientacao.lower()
             pode_colocar = posicao_suporta(humano, bloco_por_navio[navios_jogador[0]], linha, coluna, orientacao)
@@ -313,6 +351,18 @@ while len(navios_jogador) > 0:
         humano = mapa
         formatador(robo, humano)
         del navios_jogador[0]
+
+print('INICIANDO A BATALHA NAVAL!')
+time.sleep(1)
+print('5')
+time.sleep(1)
+print('4')
+time.sleep(1)
+print('3')
+time.sleep(1)
+print('2')
+time.sleep(1)
+print('1')
 
 
 while True:
@@ -353,8 +403,9 @@ while True:
             print(print('ERRRRRRRROUUUUUUUUUUUUUUUUU'))
 
     formatador(robo, humano)
-
+    print('O computador esta calculando a sua proxima jogada...')
     time.sleep(2)
+
 
     linha = random.randrange(size)
     coluna = random.randrange(size)
