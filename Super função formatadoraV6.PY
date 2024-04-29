@@ -1,6 +1,19 @@
 import random
+import time
 alfabeto = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 numfabeto ='10112131415161718192021223242526'
+def foi_derrotado_jogador(matriz):
+    for p in matriz:
+        for k in p:
+            if k == N:
+                return False
+    return True
+def foi_derrotado_robo(matriz):
+    for p in matriz:
+        for k in p:
+            if k == T:
+                return False
+    return True
 # def posicao(string):
 #     maiusculo = string.upper()
 #     coluna = alfabeto.index(maiusculo[0])
@@ -338,10 +351,30 @@ while True:
             continue
         else:
             print(print('ERRRRRRRROUUUUUUUUUUUUUUUUU'))
-    
-    # vez do computador
 
-
-    
-        
     formatador(robo, humano)
+
+    time.sleep(2)
+
+    linha = random.randrange(size)
+    coluna = random.randrange(size)
+    if humano[linha][coluna] == C or humano[linha][coluna] == X:
+        while humano[linha][coluna] == C or humano[linha][coluna] == X:
+            linha = random.randrange(size)
+            coluna = random.randrange(size)
+    if humano[linha][coluna] == W:
+        print('ERRRRRRRROUUUUUUUUUUUUUUUUU')
+        humano[linha][coluna] = C
+    elif humano[linha][coluna] == N:
+        print('KABBBBBBBBBBBOOOOOOOOOOOOOOOOOOOMMMMMMMM!!!!!!')
+        humano[linha][coluna] = X
+    formatador(robo, humano)
+    vencedor_humano = foi_derrotado_robo(robo)
+    vencedor_robo = foi_derrotado_jogador(humano)
+    if vencedor_humano:
+        print('Ganhou!')
+        break
+    elif vencedor_robo:
+        print('Perdeu lindu :) ')
+        break
+    else: continue
