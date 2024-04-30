@@ -253,8 +253,8 @@ T = '\u001b[33m███'
 C = '\u001b[36m███'
 
 # esse embaixo provavelmente vai facilitar na hora de escolher os jogadores
-numero_pais = {0: 'Brasil',1 : 'França', 2 : 'Aústralia', 3 : 'Rússia', 4 : 'Japão' }
-print('0 = Brasil\n1 = França\n2 = Aústralia\n3 = Rússia\n4 = Japão')
+numero_pais = {1: 'Brasil',2 : 'França', 3 : 'Aústralia', 4 : 'Rússia', 5 : 'Japão' }
+print('1 = Brasil\n2 = França\n3 = Aústralia\n4 = Rússia\n5 = Japão')
 jogador_num = int(input('qual o numero do pais que tu queres jogar? ')) #o jogador diz o número do país q ele quer jogar
 jogador = numero_pais[jogador_num] #pega o país do dicionario usando o número como chave
 computador = None #aqui vai ficar o país do computador
@@ -268,7 +268,7 @@ if aleatorio_computador: #se aleatorio_computador for verdade ele cai aqui e esc
         while computador == jogador:
             computador = random.choice(list(numero_pais.values())) #voce tem que transformar os valores em lista se n o random n funciona nessa situação
 else:
-    print('0 = Brasil\n1 = França\n2 = Aústralia\n3 = Rússia\n4 = Japão')
+    print('1 = Brasil\n2 = França\n3 = Aústralia\n4 = Rússia\n5 = Japão')
     computador_num = int(input('qual o numero do pais que tu queres jogar contra? '))
     if computador_num == jogador_num:
         while computador_num == jogador_num:
