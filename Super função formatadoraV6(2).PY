@@ -35,18 +35,18 @@ def frotas(pais_j, pais_c):
     frota_pais = [pais_jogador, pais_computador]
     return frota_pais  
 def posicao_suporta(mapa, numero_de_blocos, linha, coluna, orientacao):
-    if mapa[linha][coluna] == 'N':
+    if mapa[linha][coluna] == ' N ' or mapa[linha][coluna] == N or mapa[linha][coluna] == T:
         return False
     for espaco in range(0,numero_de_blocos):
         if orientacao == 'v':
             if linha + espaco >= len(mapa):
                 return False
-            if mapa[linha+espaco][coluna] == 'N':
+            if mapa[linha+espaco][coluna] == 'N' or mapa[linha+espaco][coluna] == N or mapa[linha+espaco][coluna] == T:
                 return False
         elif orientacao == 'h':
             if coluna+espaco >= len(mapa):
                 return False
-            if mapa[linha][coluna+espaco] == 'N':
+            if mapa[linha][coluna+espaco] == 'N' or mapa[linha][coluna+espaco] == N or mapa[linha][coluna+espaco] == T:
                 return False
         else:
             return 'Direção inválida'
@@ -103,8 +103,6 @@ def cria_mapa(N):
 
 
 def formatador(robo, humano):
-    robo_P = robo
-    humano_P = humano
 
     espaconum = 0
     espaco =''
@@ -284,11 +282,11 @@ escolha_de_dimensao = escolha_de_dimensao.upper()
 if escolha_de_dimensao == 'N' or escolha_de_dimensao == 'n':
     tamanho_mapa_aleatorio = True
 if tamanho_mapa_aleatorio:
-    size = random.randrange(5, 13) #dps do 13 não tem mais como deixar o gráfico formatado, ele não cabe no terminal
+    size = random.randrange(7, 13) #dps do 13 não tem mais como deixar o gráfico formatado, ele não cabe no terminal
 else:
     size = int(input('\nO mapa é quadrado, portanto o tamanho de linhas é igual ao de colunas\nescolha um número entre 5 e 13: '))
-    if size > 13 or size < 5:
-        while size > 13 or size < 5:
+    if size > 13 or size < 7:
+        while size > 13 or size < 7:
             size = int(input('por favor escolha outra dimensão: '))
 
 print(f'\nVocê está jogando como {jogador}. O Computador está jogando como {computador}')
@@ -332,9 +330,20 @@ while len(navios_jogador) > 0:
     if pode_colocar == False or mapa == False:
         while pode_colocar == False and mapa == False:
             print('Posição inválida, tente outra: ')
-            linha = int(input('Em que linha você quer posicionar?')); linha = linha -1
+
+            linha = (input('Em que linha você quer posicionar?')); 
+            while numero_valido(linha) == False:
+                linha = input('Por favor, selecione uma linha valida')
+
+            linha = int(linha); linha = linha -1
+
+
             coluna = input('Em que coluna queres posicionar? ')
+            while letra_valida(coluna) == False:
+                coluna = input('Por favor, selecione uma coluna valida')
+
             coluna = coluna.upper(); coluna = alfabeto.index(coluna)
+
             
             orientacao = input('Horizontal ou Vertical? | v/h |')
             while orientacao != 'h' and orientacao != 'v' and orientacao != 'V' and orientacao != 'H':
