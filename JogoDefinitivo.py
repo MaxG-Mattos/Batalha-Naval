@@ -49,7 +49,6 @@ def posicao_suporta(mapa, numero_de_blocos, linha, coluna, orientacao):
             if mapa[linha][coluna+espaco] == ' N ' or mapa[linha][coluna+espaco] == N or mapa[linha][coluna+espaco] == T:
                 return False
         else:
-            print('AAAAAAAAAAAAAAAAAAAAAAA')
             return 'Direção inválida'
     return True
 
@@ -192,12 +191,14 @@ def aloca_navios_jogador (mapa, numero_de_blocos, linha, coluna, orientacao):
     return mapa  
 
 def letra_valida(letra):
+    if letra == '':
+        return False
     if (letra not in alfabeto and letra not in alfabeto.lower()) or len(letra) > 1 or alfabeto.index(letra.upper()) >= size:
         return False
     return True
 
 def numero_valido(numero):
-    if numero not in numfabeto:
+    if numero not in numfabeto or numero == '':
         return False
     numero = int(numero)
     if numero > size or numero == 0:
@@ -307,11 +308,26 @@ while continua:
         tamanho_mapa_aleatorio = True
     if tamanho_mapa_aleatorio:
         size = random.randrange(7, 13) #dps do 13 não tem mais como deixar o gráfico formatado, ele não cabe no terminal
+        print('O tamanho do mapa sera ', size, ' por ', size, '!')
     else:
-        size = int(input('\nO mapa é quadrado, portanto o tamanho de linhas é igual ao de colunas\nescolha um número entre 7 e 13: '))
-        if size > 13 or size < 7:
-            while size > 13 or size < 7:
-                size = int(input('por favor escolha outra dimensão: '))
+
+        size = (input('\nO mapa é quadrado, portanto o tamanho de linhas é igual ao de colunas\nescolha um número entre 7 e 26: '))
+
+        while True:
+            if size not in numfabeto or size == '':
+                size = (input('por favor escolha um valor válido: '))
+                continue
+            size = int(size)
+            if size> 26 or size <7:
+                size = (input('por favor escolha outra dimensão: '))
+                continue
+            if size > 13:
+                grande = input('Esse tamanho é muito grande e talvez não caiba no seu terminal, tem certeza que deseja prosseguir?  ')
+                if grande == 'N' or escolha_de_dimensao == 'n':
+                    continue
+            break
+                
+
 
     print(f'\nVocê está jogando como {jogador}. O Computador está jogando como {computador}')
 
@@ -402,15 +418,18 @@ while continua:
             #sim humberto, eu sei do isdigit(), mas nao vou usar.
 
         linha = (input('Em que linha você quer atacar?'))
+        if linha == '':
+            print('Vamos chefinho, não seja timido... fale alguma coisa!')
+            continue
         if linha not in numfabeto:
             print('Isso não é uma linha valida')
             continue
         linha = int(linha) ; linha = linha -1
-        if linha > size:
+        if linha >= size:
             print('Isso esta fora do mapa chefinho')
             continue
         coluna = input('Em que coluna queres atacar? ')
-        if coluna not in alfabeto and coluna not in alfabeto.lower():
+        if (coluna not in alfabeto and coluna not in alfabeto.lower()) or coluna == '':
             print('Isso não é uma linha valida')
             continue
 
@@ -437,7 +456,7 @@ while continua:
 
         formatador(robo, humano)
         print('O computador esta calculando a sua proxima jogada...')
-        time.sleep(2)
+        time.sleep(1.5)
 
 
         linha = random.randrange(size)
