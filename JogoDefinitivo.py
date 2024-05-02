@@ -389,7 +389,7 @@ while continua:
                 while orientacao != 'h' and orientacao != 'v' and orientacao != 'V' and orientacao != 'H':
                     orientacao  = input('Por favor selecione uma orientação valida')
 
-                print(print(f'Seu návio atual possui {bloco_por_navio[navios_jogador[0]]} blocos'))
+                print(f'Seu návio atual possui {bloco_por_navio[navios_jogador[0]]} blocos')
                 orientacao = orientacao.lower()
                 pode_colocar = posicao_suporta(humano, bloco_por_navio[navios_jogador[0]], linha, coluna, orientacao)
                 mapa = aloca_navios_jogador(humano, bloco_por_navio[navios_jogador[0]], linha, coluna, orientacao)
@@ -412,6 +412,7 @@ while continua:
     print('2')
     time.sleep(1)
     print('1')
+    time.sleep(1)
     # continua = True
     # while continua:
     while True:
@@ -452,9 +453,15 @@ while continua:
             if resposta == 'N':
                 continue
             else:
-                print(print('ERRRRRRRROUUUUUUUUUUUUUUUUU'))
+                print('ERRRRRRRROUUUUUUUUUUUUUUUUU')
 
         formatador(robo, humano)
+
+        vencedor_humano = foi_derrotado_robo(robo)       
+        if vencedor_humano:
+            print('Ganhou!')
+            break
+                
         print('O computador esta calculando a sua proxima jogada...')
         time.sleep(1.5)
 
@@ -472,15 +479,10 @@ while continua:
             print('KABBBBBBBBBBBOOOOOOOOOOOOOOOOOOOMMMMMMMM!!!!!!')
             humano[linha][coluna] = X
         formatador(robo, humano)
-        vencedor_humano = foi_derrotado_robo(robo)
         vencedor_robo = foi_derrotado_jogador(humano)
-        if vencedor_humano:
-            print('Ganhou!')
-            break
-        elif vencedor_robo:
+        if vencedor_robo:
             print('Perdeu lindu :) ')
             break
-        else: continue
     init = input('Queres continuar? ')
     init = init.lower()
     if init == 'n' or init == 'nao' or init == 'não':
